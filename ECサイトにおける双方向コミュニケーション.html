@@ -1,0 +1,212 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>ECサイトにおける双方向コミュニケーション</title><style type='text/css'>html {overflow-x: initial !important;}:root { --bg-color:#ffffff; --text-color:#333333; --select-text-bg-color:#B5D6FC; --select-text-font-color:auto; --monospace:"Lucida Console",Consolas,"Courier",monospace; }
+html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+body { margin: 0px; padding: 0px; height: auto; bottom: 0px; top: 0px; left: 0px; right: 0px; font-size: 1rem; line-height: 1.42857; overflow-x: hidden; background: inherit; }
+iframe { margin: auto; }
+a.url { word-break: break-all; }
+a:active, a:hover { outline: 0px; }
+.in-text-selection, ::selection { text-shadow: none; background: var(--select-text-bg-color); color: var(--select-text-font-color); }
+#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; word-wrap: break-word; position: relative; white-space: normal; overflow-x: visible; padding-top: 40px; }
+#write.first-line-indent p { text-indent: 2em; }
+#write.first-line-indent li p, #write.first-line-indent p * { text-indent: 0px; }
+#write.first-line-indent li { margin-left: 2em; }
+.for-image #write { padding-left: 8px; padding-right: 8px; }
+body.typora-export { padding-left: 30px; padding-right: 30px; }
+.typora-export .footnote-line, .typora-export li, .typora-export p { white-space: pre-wrap; }
+@media screen and (max-width: 500px) {
+  body.typora-export { padding-left: 0px; padding-right: 0px; }
+  .CodeMirror-sizer { margin-left: 0px !important; }
+  .CodeMirror-gutters { display: none !important; }
+}
+#write li > figure:first-child { margin-top: -20px; }
+#write ol, #write ul { position: relative; }
+img { max-width: 100%; vertical-align: middle; }
+button, input, select, textarea { color: inherit; font-style: inherit; font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-size: inherit; line-height: inherit; font-family: inherit; }
+input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
+*, ::after, ::before { box-sizing: border-box; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p, #write pre { width: inherit; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p { position: relative; }
+h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 2; }
+p { orphans: 4; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.6rem; }
+h4 { font-size: 1.4rem; }
+h5 { font-size: 1.2rem; }
+h6 { font-size: 1rem; }
+.md-math-block, .md-rawblock, h1, h2, h3, h4, h5, h6, p { margin-top: 1rem; margin-bottom: 1rem; }
+.hidden { display: none; }
+.md-blockmeta { color: rgb(204, 204, 204); font-weight: 700; font-style: italic; }
+a { cursor: pointer; }
+sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.7); color: rgb(85, 85, 85); border-radius: 4px; cursor: pointer; }
+sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inherit; text-decoration: inherit; }
+#write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
+figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
+figure > table { margin: 0px !important; }
+tr { break-inside: avoid; break-after: auto; }
+thead { display: table-header-group; }
+table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
+table.md-table td { min-width: 32px; }
+.CodeMirror-gutters { border-right: 0px; background-color: inherit; }
+.CodeMirror { text-align: left; }
+.CodeMirror-placeholder { opacity: 0.3; }
+.CodeMirror pre { padding: 0px 4px; }
+.CodeMirror-lines { padding: 0px; }
+div.hr:focus { cursor: none; }
+#write pre { white-space: pre-wrap; }
+#write.fences-no-line-wrapping pre { white-space: pre; }
+#write pre.ty-contain-cm { white-space: normal; }
+.CodeMirror-gutters { margin-right: 4px; }
+.md-fences { font-size: 0.9rem; display: block; break-inside: avoid; text-align: left; overflow: visible; white-space: pre; background: inherit; position: relative !important; }
+.md-diagram-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
+#write .md-fences.mock-cm { white-space: pre-wrap; }
+.md-fences.md-fences-with-lineno { padding-left: 0px; }
+#write.fences-no-line-wrapping .md-fences.mock-cm { white-space: pre; overflow-x: auto; }
+.md-fences.mock-cm.md-fences-with-lineno { padding-left: 8px; }
+.CodeMirror-line, twitterwidget { break-inside: avoid; }
+.footnotes { opacity: 0.8; font-size: 0.9rem; margin-top: 1em; margin-bottom: 1em; }
+.footnotes + .footnotes { margin-top: 0px; }
+.md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; background: 0px 0px; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; -webkit-tap-highlight-color: transparent; line-height: normal; font-weight: 400; text-align: left; box-sizing: content-box; direction: ltr; }
+li div { padding-top: 0px; }
+blockquote { margin: 1rem 0px; }
+li .mathjax-block, li p { margin: 0.5rem 0px; }
+li { margin: 0px; position: relative; }
+blockquote > :last-child { margin-bottom: 0px; }
+blockquote > :first-child, li > :first-child { margin-top: 0px; }
+.footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
+#write .footnote-line { white-space: pre-wrap; }
+@media print {
+  body, html { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; }
+  #write { margin-top: 0px; padding-top: 0px; border-color: transparent !important; }
+  .typora-export * { -webkit-print-color-adjust: exact; }
+  html.blink-to-pdf { font-size: 13px; }
+  .typora-export #write { padding-left: 32px; padding-right: 32px; padding-bottom: 0px; break-after: avoid; }
+  .typora-export #write::after { height: 0px; }
+  @page { margin: 20mm 0px; }
+}
+.footnote-line { margin-top: 0.714em; font-size: 0.7em; }
+a img, img a { cursor: pointer; }
+pre.md-meta-block { font-size: 0.8rem; min-height: 0.8rem; white-space: pre-wrap; background: rgb(204, 204, 204); display: block; overflow-x: hidden; }
+p > .md-image:only-child:not(.md-img-error) img, p > img:only-child { display: block; margin: auto; }
+p > .md-image:only-child { display: inline-block; width: 100%; }
+#write .MathJax_Display { margin: 0.8em 0px 0px; }
+.md-math-block { width: 100%; }
+.md-math-block:not(:empty)::after { display: none; }
+[contenteditable="true"]:active, [contenteditable="true"]:focus { outline: 0px; box-shadow: none; }
+.md-task-list-item { position: relative; list-style-type: none; }
+.task-list-item.md-task-list-item { padding-left: 0px; }
+.md-task-list-item > input { position: absolute; top: 0px; left: 0px; margin-left: -1.2em; margin-top: calc(1em - 10px); }
+.math { font-size: 1rem; }
+.md-toc { min-height: 3.58rem; position: relative; font-size: 0.9rem; border-radius: 10px; }
+.md-toc-content { position: relative; margin-left: 0px; }
+.md-toc-content::after, .md-toc::after { display: none; }
+.md-toc-item { display: block; color: rgb(65, 131, 196); }
+.md-toc-item a { text-decoration: none; }
+.md-toc-inner:hover { text-decoration: underline; }
+.md-toc-inner { display: inline-block; cursor: pointer; }
+.md-toc-h1 .md-toc-inner { margin-left: 0px; font-weight: 700; }
+.md-toc-h2 .md-toc-inner { margin-left: 2em; }
+.md-toc-h3 .md-toc-inner { margin-left: 4em; }
+.md-toc-h4 .md-toc-inner { margin-left: 6em; }
+.md-toc-h5 .md-toc-inner { margin-left: 8em; }
+.md-toc-h6 .md-toc-inner { margin-left: 10em; }
+@media screen and (max-width: 48em) {
+  .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
+  .md-toc-h4 .md-toc-inner { margin-left: 5em; }
+  .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
+  .md-toc-h6 .md-toc-inner { margin-left: 8em; }
+}
+a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
+.footnote-line a:not(.reversefootnote) { color: inherit; }
+.md-attr { display: none; }
+.md-fn-count::after { content: "."; }
+code, pre, samp, tt { font-family: var(--monospace); }
+kbd { margin: 0px 0.1em; padding: 0.1em 0.6em; font-size: 0.8em; color: rgb(36, 39, 41); background: rgb(255, 255, 255); border: 1px solid rgb(173, 179, 185); border-radius: 3px; box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset; white-space: nowrap; vertical-align: middle; }
+.md-comment { color: rgb(162, 127, 3); opacity: 0.8; font-family: var(--monospace); }
+code { text-align: left; vertical-align: initial; }
+a.md-print-anchor { white-space: pre !important; border-width: initial !important; border-style: none !important; border-color: initial !important; display: inline-block !important; position: absolute !important; width: 1px !important; right: 0px !important; outline: 0px !important; background: 0px 0px !important; text-decoration: initial !important; text-shadow: initial !important; }
+.md-inline-math .MathJax_SVG .noError { display: none !important; }
+.html-for-mac .inline-math-svg .MathJax_SVG { vertical-align: 0.2px; }
+.md-math-block .MathJax_SVG_Display { text-align: center; margin: 0px; position: relative; text-indent: 0px; max-width: none; max-height: none; min-height: 0px; min-width: 100%; width: auto; overflow-y: hidden; display: block !important; }
+.MathJax_SVG_Display, .md-inline-math .MathJax_SVG_Display { width: auto; margin: inherit; display: inline-block !important; }
+.MathJax_SVG .MJX-monospace { font-family: var(--monospace); }
+.MathJax_SVG .MJX-sans-serif { font-family: sans-serif; }
+.MathJax_SVG { display: inline; font-style: normal; font-weight: 400; line-height: normal; zoom: 90%; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; }
+.MathJax_SVG * { transition: none; }
+.MathJax_SVG_Display svg { vertical-align: middle !important; margin-bottom: 0px !important; }
+.os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
+.md-diagram-panel > svg { max-width: 100%; }
+[lang="mermaid"] svg, [lang="flow"] svg { max-width: 100%; }
+[lang="mermaid"] .node text { font-size: 1rem; }
+table tr th { border-bottom: 0px; }
+video { max-width: 100%; display: block; margin: 0px auto; }
+iframe { max-width: 100%; width: 100%; border: none; }
+.highlight td, .highlight tr { border: 0px; }
+
+
+html { font-size: 19px; }
+html, body { margin: auto; background: rgb(254, 254, 254); }
+body { font-family: Vollkorn, Palatino, Times; color: rgb(51, 51, 51); line-height: 1.4; text-align: justify; }
+#write { max-width: 960px; margin: 0px auto 2em; line-height: 1.53; padding-top: 40px; }
+#write > h1:first-child, h1 { margin-top: 1.6em; font-weight: normal; }
+h1 { font-size: 3em; }
+h2 { margin-top: 2em; font-weight: normal; }
+h3 { font-weight: normal; font-style: italic; margin-top: 3em; }
+h1, h2, h3 { text-align: center; }
+h2::after { border-bottom: 1px solid rgb(47, 47, 47); content: ""; width: 100px; display: block; margin: 0px auto; height: 1px; }
+h1 + h2, h2 + h3 { margin-top: 0.83em; }
+p, .mathjax-block { margin-top: 0px; }
+ul { list-style: square; padding-left: 1.2em; }
+ol { padding-left: 1.2em; }
+blockquote { margin-left: 1em; padding-left: 1em; border-left: 1px solid rgb(221, 221, 221); }
+code, pre { font-family: Consolas, Menlo, Monaco, monospace, serif; font-size: 0.9em; background: white; }
+.md-fences { margin-left: 1em; padding-left: 1em; border: 1px solid rgb(221, 221, 221); padding-bottom: 8px; padding-top: 6px; margin-bottom: 1.5em; }
+a { color: rgb(36, 132, 193); text-decoration: none; }
+a:hover { text-decoration: underline; }
+a img { border: none; }
+h1 a, h1 a:hover { color: rgb(51, 51, 51); text-decoration: none; }
+hr { color: rgb(221, 221, 221); height: 1px; margin: 2em 0px; border-top: 1px solid rgb(221, 221, 221); border-bottom: none; border-left: 0px; border-right: 0px; }
+.ty-table-edit { background: rgb(237, 237, 237); padding-top: 4px; }
+table { margin-bottom: 1.33333rem; }
+table th, table td { padding: 8px; line-height: 1.33333rem; vertical-align: top; border-top: 1px solid rgb(221, 221, 221); }
+table th { font-weight: bold; }
+table thead th { vertical-align: bottom; }
+table caption + thead tr:first-child th, table caption + thead tr:first-child td, table colgroup + thead tr:first-child th, table colgroup + thead tr:first-child td, table thead:first-child tr:first-child th, table thead:first-child tr:first-child td { border-top: 0px; }
+table tbody + tbody { border-top: 2px solid rgb(221, 221, 221); }
+.task-list { padding: 0px; }
+.md-task-list-item { padding-left: 1.6rem; }
+.md-task-list-item > input::before { content: "√"; display: inline-block; width: 1.33333rem; height: 1.6rem; vertical-align: middle; text-align: center; color: rgb(221, 221, 221); background-color: rgb(254, 254, 254); }
+.md-task-list-item > input:checked::before, .md-task-list-item > input[checked]::before { color: inherit; }
+.md-tag { color: inherit; font-style: inherit; font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-size: inherit; line-height: inherit; font-family: inherit; }
+#write pre.md-meta-block { min-height: 35px; padding: 0.5em 1em; }
+#write pre.md-meta-block { white-space: pre; background: rgb(248, 248, 248); border-width: 0px 30px; border-top-style: initial; border-bottom-style: initial; border-top-color: initial; border-bottom-color: initial; border-image: initial; color: rgb(153, 153, 153); width: 100vw; max-width: calc(100% + 60px); margin-left: -30px; border-left-style: solid; border-left-color: rgb(248, 248, 248); border-right-style: solid; border-right-color: rgb(248, 248, 248); margin-bottom: 2em; margin-top: -1.33333rem; padding-top: 26px; padding-bottom: 10px; line-height: 1.8em; font-size: 0.76em; padding-left: 0px; }
+.md-img-error.md-image > .md-meta { vertical-align: bottom; }
+#write > h5.md-focus::before { top: 2px; }
+.md-toc { margin-top: 40px; }
+.md-toc-content { padding-bottom: 20px; }
+.outline-expander::before { color: inherit; font-size: 14px; top: auto; content: ""; font-family: FontAwesome; }
+.outline-expander:hover::before, .outline-item-open > .outline-item > .outline-expander::before { content: ""; }
+#typora-source { font-family: Courier, monospace; color: rgb(106, 106, 106); }
+.html-for-mac #typora-sidebar { box-shadow: rgba(0, 0, 0, 0.176) 0px 6px 12px; }
+.cm-s-typora-default .cm-header, .cm-s-typora-default .cm-property, .CodeMirror.cm-s-typora-default div.CodeMirror-cursor { color: rgb(66, 139, 202); }
+.cm-s-typora-default .cm-atom, .cm-s-typora-default .cm-number { color: rgb(119, 119, 119); }
+.typora-node .file-list-item-parent-loc, .typora-node .file-list-item-time, .typora-node .file-list-item-summary { font-family: arial, sans-serif; }
+.md-task-list-item > input { margin-left: -1.3em; margin-top: calc(1rem - 12px); }
+.md-mathjax-midline { background: rgb(250, 250, 250); }
+.md-fences .code-tooltip { bottom: -2em !important; }
+.dropdown-menu .divider { border-color: rgb(229, 229, 229); }
+
+
+
+
+
+ .typora-export li, .typora-export p, .typora-export,  .footnote-line {white-space: normal;} 
+</style>
+</head>
+<body class='typora-export os-windows' >
+<div  id='write'  class = 'is-node'><p><strong>ECサイトにおける双方向コミュニケーション</strong></p><p><em>BOTによるECサイトでの接客</em></p><p>目次</p><div class='md-toc' mdtype='toc'><p class="md-toc-content"><span class="md-toc-item md-toc-h2" data-ref="n5"><a class="md-toc-inner" style="cursor: pointer;" href="#header-n5">ECサイトにおける顧客とのコミュニケーションの変化</a></span><span class="md-toc-item md-toc-h4" data-ref="n6"><a class="md-toc-inner" style="cursor: pointer;" href="#header-n6">企業からユーザーへの一方的なアプローチ</a></span><span class="md-toc-item md-toc-h4" data-ref="n13"><a class="md-toc-inner" style="cursor: pointer;" href="#header-n13">「接客」がない店舗</a></span><span class="md-toc-item md-toc-h4" data-ref="n17"><a class="md-toc-inner" style="cursor: pointer;" href="#header-n17">SMSやチャットBOTを使用したシームレスなコミュニケーションの登場</a></span><span class="md-toc-item md-toc-h2" data-ref="n26"><a class="md-toc-inner" style="cursor: pointer;" href="#header-n26">チャットBOTを用いたEC店舗での「接客」</a></span><span class="md-toc-item md-toc-h4" data-ref="n27"><a class="md-toc-inner" style="cursor: pointer;" href="#header-n27">BOTを使ったコミュニケーションのメリット</a></span><span class="md-toc-item md-toc-h6" data-ref="n39"><a class="md-toc-inner" style="cursor: pointer;" href="#header-n39">24時間265日応答可能なカスタマーサービス</a></span><span class="md-toc-item md-toc-h6" data-ref="n42"><a class="md-toc-inner" style="cursor: pointer;" href="#header-n42">来店～アフターサービスまで、常に顧客の近くにある</a></span><span class="md-toc-item md-toc-h6" data-ref="n44"><a class="md-toc-inner" style="cursor: pointer;" href="#header-n44">ごく自然なインサイト情報の取得手段</a></span><span class="md-toc-item md-toc-h6" data-ref="n46"><a class="md-toc-inner" style="cursor: pointer;" href="#header-n46">FacebookやLineなどのユーザーの日常に寄り添った接触導線の確保</a></span><span class="md-toc-item md-toc-h4" data-ref="n48"><a class="md-toc-inner" style="cursor: pointer;" href="#header-n48">チャットBOTを利用したサービスの実例</a></span><span class="md-toc-item md-toc-h6" data-ref="n49"><a class="md-toc-inner" style="cursor: pointer;" href="#header-n49">Lohaco</a></span><span class="md-toc-item md-toc-h6" data-ref="n53"><a class="md-toc-inner" style="cursor: pointer;" href="#header-n53">セブン&amp;アイグループ</a></span><span class="md-toc-item md-toc-h6" data-ref="n57"><a class="md-toc-inner" style="cursor: pointer;" href="#header-n57">1-800 Flowers.com</a></span><span class="md-toc-item md-toc-h4" data-ref="n60"><a class="md-toc-inner" style="cursor: pointer;" href="#header-n60">チャットBOT作成サービス</a></span><span class="md-toc-item md-toc-h6" data-ref="n61"><a class="md-toc-inner" style="cursor: pointer;" href="#header-n61">Repl-AI</a></span><span class="md-toc-item md-toc-h6" data-ref="n66"><a class="md-toc-inner" style="cursor: pointer;" href="#header-n66">hachidori（hachidori plus）</a></span><span class="md-toc-item md-toc-h2" data-ref="n71"><a class="md-toc-inner" style="cursor: pointer;" href="#header-n71">まとめ　会話型コマースの時代</a></span></p></div><h2><a name='header-n5' class='md-header-anchor '></a>ECサイトにおける顧客とのコミュニケーションの変化</h2><h4><a name='header-n6' class='md-header-anchor '></a>企業からユーザーへの一方的なアプローチ</h4><p>EC事業者とユーザーの関係性は今まで双方向性に乏しく、事業者からユーザーへ、ユーザーから事業者へ一方的に送り付ける情報によるコミュニケーションを主としていた</p><p><img src='.\img\rakuten.png' alt='rakuten' referrerPolicy='no-referrer' /></p><blockquote><p>事業者からエンドユーザーへ一方的に送られる情報の羅列。顧客は商品やキャンペーンを見てもその場で事業者にコミュニケーションをとれない、手間のかかるメールでの問い合わせや、自らQ&amp;Aを見に行かなければならない</p></blockquote><p>問い合わせはわざわざ企業が容易したUIや、レスポンスの遅いメールなどのツールを使った行われ、それだけでユーザーは疲れてしまう。</p><p>ユーザーと店舗間のコミュニケーションコストの高さは明らかにECサイトが実店舗よりも劣る点だった。</p><h4><a name='header-n13' class='md-header-anchor '></a>「接客」がない店舗</h4><p>実店舗では買い物の際に、不明点があったら詳しい店員を捕まえてすぐに尋ねることや、細かい注文の際の依頼を伝えたりすることができる。</p><p>EC店舗にはユーザーは一人で入り、自力では事業者があらかじめ用意したフォーマットに従った情報しか得ることができず、それ以上のことが知りたければ面倒なメールや、何度も呼び出しで待たされる電話での問い合わせをするしかない。そんなことをしている間にユーザーはどこかで嫌になって離れてしまうことがよくある。</p><p>近くにいて答えてくれる店員がいないというのは、ユーザーにとってはひどく不便に感じる部分である。</p><h4><a name='header-n17' class='md-header-anchor '></a>SMSやチャットBOTを使用したシームレスなコミュニケーションの登場</h4><p>&nbsp;</p><p><img src='.\img\SMS.jpg' alt='SMS' referrerPolicy='no-referrer' /></p><p><img src='.\img\omni7.png' alt='omni7' referrerPolicy='no-referrer' /></p><p>近年、SMSやチャットBOTを使用したコミュニケーションにより、ユーザーとより密でスピーディな関係性を築けるサービスを提供するEC店舗が増えてきている。</p><p>24時間365日サイトに常駐して、ユーザーからの自然言語での問い合わせを理解してコミュニケーションを行うAIチャットBOTは、まるでベテランの店員がそこにいるかのようにユーザーを安心させてくれるだろう。</p><p>LINEやFaceBookなどの、多くのユーザーが慣れ親しんだUIでコミュニケーション手段を提供することは、企業が独自に用意したフォーマットの問い合わせフォームや、どこにあるのかわからない連絡先の電話番号・メールアドレスなんかよりよほどとっつきやすい。</p><p>ユーザーと密にコミュニケーションをとり、電子的なフォーマットのやり取りではなく自然言語での人間的なやり取りは、ユーザーに親しみや興味を与えることにも一役買ってくれる。</p><h2><a name='header-n26' class='md-header-anchor '></a>チャットBOTを用いたEC店舗での「接客」</h2><h4><a name='header-n27' class='md-header-anchor '></a>BOTを使ったコミュニケーションのメリット</h4><ul><li>24時間265日応答可能なカスタマーサービス</li><li>来店～アフターサービスまで、常に顧客の近くにある</li><li>ごく自然なインサイト情報の取得手段</li><li>FacebookやLineなどのユーザーの日常に寄り添った接触導線の確保</li><li>最も手軽なグローバル対応策</li></ul><h6><a name='header-n39' class='md-header-anchor '></a>24時間265日応答可能なカスタマーサービス</h6><p>BOTには急速が必要ないので、カスタマーセンターの稼働時間や関連部署の都合に関係なく、常に均質なサービスを提供することが可能。</p><p>営業時間という概念がなく、常にユーザーが訪れる可能性があるEC店舗において、有人対応でこれを行うのは非現実的ですが、BOTならこれを実現できる。</p><h6><a name='header-n42' class='md-header-anchor '></a>来店～アフターサービスまで、常に顧客の近くにある</h6><p>ユーザーが初めてサイトに訪れてサイトについての情報を収集する段階から、購入をしてアフターサービスを受けるまで常にユーザーと接点を持ち続けることで、購入見込み客の囲い込み・販売機会損失を回避することができる。</p><h6><a name='header-n44' class='md-header-anchor '></a>ごく自然なインサイト情報の取得手段</h6><p>ユーザーにとって最も簡単な店舗情報の取得は「詳しい店員に自然言語で尋ねる」ということであり、そのコミュニケーションコストは問い合わせリンクをクリックして、見つからないかもしれない目的のQ&amp;Aを探すことより遥かに簡単である。</p><h6><a name='header-n46' class='md-header-anchor '></a>FacebookやLineなどのユーザーの日常に寄り添った接触導線の確保</h6><p>Facebook MessangerやLine Messanger Apiを用いれば、ユーザーが慣れ親しんだインターフェースでのBOTコミュニケーションが可能になる。ユーザーが日常的に利用しているメッセージサービスを接触導線にすることで、店舗に対するアクションの敷居を大きく下げることができる。</p><h4><a name='header-n48' class='md-header-anchor '></a>チャットBOTを利用したサービスの実例</h4><h6><a name='header-n49' class='md-header-anchor '></a>Lohaco</h6><p><img src='.\img\lohaco_naomi.jpg' alt='lohaco_naomi' referrerPolicy='no-referrer' /></p><p>LohacoのCS業務を支えるチャットボット、バーチャルエージェントの「マナミさん」</p><p>カスタマーサポートの一貫として、顧客からの質問に対して自動で応答しており、月間でコミュニケーター6.5人分の働きをしているらしい。</p><h6><a name='header-n53' class='md-header-anchor '></a>セブン&amp;アイグループ</h6><p><img src='.\img\omni7.png' alt='omni7' referrerPolicy='no-referrer' /></p><p>&nbsp;</p><p>セブン&amp;アイグループのネットショッピングサイト「オムニ7」に導入されたAIチャットボット。</p><p>サイトの操作説明やQ&amp;A形式で利用者にお薦めのページへ遷移させたりと、リアル店舗で接客を受けながらショッピングをしているかのような「わくわく感」と、ネットショッピングならではの「利便性」を併せ持ったサービスを提供する</p><h6><a name='header-n57' class='md-header-anchor '></a>1-800 Flowers.com</h6><p><img src='.\img\internetretailer3913-1-1.jpg' alt='internetretailer3913-1-1' referrerPolicy='no-referrer' /></p><p>IBMの「Watson（ワトソン）」やFacebookのメッセンジャーアプリで使われているボットも活用して、全自動の取引チャネルとカスタマーサービスを提供している。また、アマゾンの音声認識技術「Alexa（アレクサ）」を利用し、声で花のギフトを注文できるようにするという、小売業界で初の試みを実施した。</p><h4><a name='header-n60' class='md-header-anchor '></a>チャットBOT作成サービス</h4><h6><a name='header-n61' class='md-header-anchor '></a>Repl-AI</h6><p><img src='.\img\bot003.png' alt='bot003' referrerPolicy='no-referrer' /></p><p>ルールベースと機械学習を組み合わせたAIチャットボットで無料利用可能</p><p>ocomo Developer supportでAPI連携することができ、外部の様々なサービスと連携が可能。例えば、商品情報などのリアルタイムに変化する情報もチャットボットから回答させることができる。</p><p>プログラミング技術が不要であり、誰でも簡単に作成できることを強みとしているが、複雑な要件の場合はチャットボットの作成をRepl-AIビジネスパートナーとともに制作することができる。</p><h6><a name='header-n66' class='md-header-anchor '></a>hachidori（hachidori plus）</h6><p><img src='.\img\hachidori.png' alt='hachidori' referrerPolicy='no-referrer' /></p><p>開発から運用までをひとつの管理画面で行うことができ、より便利にチャットボットの運用を行えることが強みのhachidori。小規模な個人ユースに対応しているhachidoriと、比較的大規模ユースのhachidori plusの2系統のサービスを展開している。</p><p>住所・関心の対象など顧客ごとに属性を持たせることで、それらの顧客属性ごとにチャットボットの返信を変えることも可能。</p><p>チャットボットが正しく応答できなかった問い合わせを参考にし、対応パターンを増やすことによって、チャットボットを成長させることが出来る。</p><h2><a name='header-n71' class='md-header-anchor '></a>まとめ　会話型コマースの時代</h2><p>野村総合研究所（NRI）が公表した「ITロードマップ」（情報通信関連の重要技術が2021年までにどのように進展し実用化されるかを予測したもの）によると、「チャットボット」は2021年度には普及期に入ると予測した。</p><p>「自動会話プログラム」の「チャットボット」を巡っては、Facebookから「Facebook Messenger Platform」、LINEが「Messaging API」をリリースするなど、新しいサービスが相次いで発表されている。</p><p>人工知能（AI）技術を取り込むことも可能で、近年は顧客からの問い合わせ対応、商品提案など顧客との接点作りで活用したいという企業ニーズが増加している。</p><p>2019～2020年度に「チャットボット」関連サービスが多数登場。チャットプラットフォームとの融合が進むとNRIは予測。チャットプラットフォームでは、個人の属性情報なども利用できるようになり、「チャットボット」を用いたサービスはさらに発展するとした。</p><p>ECに「チャットボット」を活用し、会話を通じて商品提案や受注を行う取り組みが国内外で目立ち始めている。</p><p>チャットボットの普及で「会話型EC」が当たり前になる日は近いかもしれない。</p></div>
+</body>
+</html>
